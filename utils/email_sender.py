@@ -16,7 +16,7 @@ class EmailSender:
         return f"""
 <div style="font-family:Consolas,Monaco,monospace;padding:20px 30px;margin:0 auto;max-width:500px;border:2px solid #a8c4dd;border-radius:5px;">
     <h2 style="color:#a8c4dd;font-size:20px;margin:0 0 10px 0;padding-bottom:10px;border-bottom:1px solid #d0ddea;text-transform:uppercase;">
-        <strong>ETL Result {dt.datetime.now().strftime("%Y-%m-%d")}</strong>
+        <strong>ETL Result {dt.datetime.now().strftime("%Y-%m-%d %H:%M")}</strong>
     </h2>
 
     <h3 style="color:#5c7c99;font-size:16px;margin:15px 0 5px 0;">CNA</h3>
