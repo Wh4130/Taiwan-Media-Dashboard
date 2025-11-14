@@ -1,5 +1,5 @@
-from python_scripts.cna_scraping import CNA_scraper
-from python_scripts.mongodb import MongoDbManager
+from etl_tasks.cna_scraping import CNA_scraper
+from etl_tasks.mongodb import MongoDbManager
 from utils.constants import SCRAPER_SETTINGS
 from utils.email_sender import EmailSender
 import logging
