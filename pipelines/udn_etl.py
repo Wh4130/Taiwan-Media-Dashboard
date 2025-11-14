@@ -1,5 +1,5 @@
 from python_scripts.udn_scraping import UDN_scraper
-from python_scripts.mongodb import LOAD_TO_MONGODB
+from python_scripts.mongodb import MongoDbManager
 from utils.constants import SCRAPER_SETTINGS
 import logging
 
@@ -21,7 +21,12 @@ def UDN_ETL(k = SCRAPER_SETTINGS['udn']['K'], t = SCRAPER_SETTINGS['udn']['T']):
 
     print("Done scraping! Loading to MongoDB atlas...")
 
-    LOAD_TO_MONGODB("udn", udn.scraped_results)
-    print("Done loading!")
+    mongo = MongoDbManager()
+    mongo.LOAD_TO_MONGODB("udn", udn.scraped_results)
+    
+    print("Done loading! Removing duplicated data...")
+    mongo.REMOVE_DUPLICATE("udn")
+
+    print("Done!")
 
     
