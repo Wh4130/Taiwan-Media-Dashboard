@@ -8,7 +8,7 @@ import asyncio
 import sys, os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
-def CNA_ETL():
+def CNA_ETL(k = SCRAPER_SETTINGS['cna']['K'] , t = SCRAPER_SETTINGS['cna']['T']):
     # --- Instantiate CNA scraper class
     print("start scraping CNA news...")
     cna = CNA_scraper(SCRAPER_SETTINGS['cna']['base_url'])
@@ -17,7 +17,7 @@ def CNA_ETL():
     cna.start_cna_driver()
 
     print("click more button...")
-    cna.click_more_btn(SCRAPER_SETTINGS['cna']['K'], SCRAPER_SETTINGS['cna']['T'])
+    cna.click_more_btn(k, t)
 
     print("get news url list...")
     cna.get_news_url_ls()

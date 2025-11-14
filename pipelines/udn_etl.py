@@ -8,13 +8,13 @@ import asyncio
 import sys, os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
-def UDN_ETL():
+def UDN_ETL(k = SCRAPER_SETTINGS['udn']['K'], t = SCRAPER_SETTINGS['udn']['T']):
     # --- Instantiate UDN scraper class
     print("start scraping UDN news...")
     udn = UDN_scraper(SCRAPER_SETTINGS['udn']['base_url'])
 
     print("get news url list...")
-    udn.get_news_list(SCRAPER_SETTINGS['udn']['K'], SCRAPER_SETTINGS['udn']['T'])
+    udn.get_news_list(k, t)
     
     print("start scraping individual news...")
     udn.scrape_news_batch()
