@@ -83,7 +83,7 @@ class CNA_scraper:
 
         batch_results = []
 
-        for i, url in enumerate(tqdm(self.news_url_ls, "scraping individual news...")):
+        for url in self.news_url_ls:
 
             try:
 

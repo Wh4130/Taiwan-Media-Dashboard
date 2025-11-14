@@ -53,7 +53,7 @@ class UDN_scraper:
 
         batch_results = []
 
-        for i, news in enumerate(tqdm(self.news_url_ls, "scraping individual news...")):
+        for news in self.news_url_ls:
 
             url = f"https://udn.com/{news['titleLink']}"
 
