@@ -14,7 +14,7 @@ media_sources = {
 SCRAPER_SETTINGS = {
     "cna": {
         "base_url": "https://www.cna.com.tw/list/aall.aspx",
-        "K": 25,
+        "K": 2,
         "T": 0.1
     },
     "udn": {

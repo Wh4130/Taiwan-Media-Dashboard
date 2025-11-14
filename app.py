@@ -1,12 +1,21 @@
 from pipelines.cna_etl import CNA_ETL
 from pipelines.udn_etl import UDN_ETL
-from utils.constants import SCRAPER_SETTINGS
+from utils.email_sender import EmailSender
 
 import asyncio
 import logging
 import sys, os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
+# * --------------------------------------------------------------------------------
+# --- FastAPI 寫法
+"""
+deployment: a webservice hosted on render
+outside trigger > async scraping > load to mongodb > send email
+
+$ failed! render disabled smtp email sender since 2025 September!
+"""
+"""
 import uvicorn
 from fastapi import FastAPI, BackgroundTasks, Query
 
@@ -41,28 +50,35 @@ async def start_udn_etl(background_tasks: BackgroundTasks,
     background_tasks.add_task(UDN_ETL, k, t)
 
     return {"message": "ETL process started in background"}
+"""
 
 
+# * --------------------------------------------------------------------------------
+# --- Cronjob 寫法
+"""
+deployment: a cronjob hosted on render
+cronjob trigger > async scraping then gather > load to mongodb > send email
 
+$ adopted! cost 1 usd per month.
+"""
 
+async def main():
 
-# async def main():
+    tasks = [
+        asyncio.to_thread(UDN_ETL),
+        asyncio.to_thread(CNA_ETL)
+    ]
 
-    # tasks = [
-    #     asyncio.to_thread(UDN_ETL),
-    #     asyncio.to_thread(CNA_ETL)
-    # ]
+    tasks_results = await asyncio.gather(*tasks)
+    results = {
+        "cna": tasks_results[1],
+        "udn": tasks_results[0]
+    }
 
-    # await asyncio.gather(*tasks)
+    print(EmailSender.send(os.getenv("RECIPIENT"), EmailSender.template(results)))
 
-
-# app = FastAPI()
-
-# @app.get("/cna_scrape")
-# async def cna_scrape(background_tasks: BackgroundTasks):
-#     background_tasks.add_task(CNA_ETL)
 
 if __name__ == "__main__":
-    # asyncio.run(main())
+    asyncio.run(main())
     
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    

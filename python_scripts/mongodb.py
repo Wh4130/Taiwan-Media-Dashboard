@@ -56,7 +56,7 @@ class MongoDbManager:
                     }
                 )
 
-                print("result of removing duplicates: ", delete_result)
+                print(f"{delete_result.deleted_count} duplicates removed.")
 
             return {"removed_count": len(ids_to_delete)}
 
