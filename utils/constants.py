@@ -14,12 +14,12 @@ media_sources = {
 SCRAPER_SETTINGS = {
     "cna": {
         "base_url": "https://www.cna.com.tw/list/aall.aspx",
-        "K": 3,
+        "K": 2,
         "T": 0.1
     },
     "udn": {
         "base_url": "https://udn.com/api/more",
-        "K": 8,
+        "K": 4,
         "T": 0.1
     },
     "tvbs": {
