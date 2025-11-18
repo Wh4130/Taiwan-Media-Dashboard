@@ -1,11 +1,14 @@
 from pipelines.cna_etl import CNA_ETL
 from pipelines.udn_etl import UDN_ETL
+from pipelines.tvbs_etl import TVBS_ETL
 from utils.email_sender import EmailSender
 
 import asyncio
 import logging
 import sys, os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
+import datetime as dt
+
 
 # * --------------------------------------------------------------------------------
 # --- FastAPI 寫法
@@ -65,17 +68,20 @@ $ adopted! cost 1 usd per month.
 async def main():
 
     tasks = [
-        asyncio.to_thread(UDN_ETL),
-        asyncio.to_thread(CNA_ETL)
+        # asyncio.to_thread(UDN_ETL),
+        # asyncio.to_thread(CNA_ETㄣL)
+        asyncio.to_thread(TVBS_ETL)
     ]
 
     tasks_results = await asyncio.gather(*tasks)
     results = {
-        "cna": tasks_results[1],
-        "udn": tasks_results[0]
+        # "udn": tasks_results[0],
+        # "cna": tasks_results[1],
+        "tvbs": tasks_results[2]
+
     }
 
-    print(EmailSender.send(os.getenv("RECIPIENT"), EmailSender.template(results)))
+    # print(EmailSender.send(os.getenv("RECIPIENT"), EmailSender.template(results)))
 
 
 if __name__ == "__main__":
