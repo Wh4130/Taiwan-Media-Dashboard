@@ -3,7 +3,6 @@
 # *** --- by source analysis page ---
 
 import streamlit as st
-from streamlit_plotly_events import plotly_events
 import matplotlib.pyplot as plt
 import pandas as pd
 import plotly.express as px
@@ -16,8 +15,6 @@ from ui_utils.ui_manager import UIManager, P1_Keywords
 
 import datetime as dt
 st.title("Taiwan Media Dashboard")
-
-# TODO 0.3 deployment
 
 # * ------------------------------------------------------------------------------
 # *** --- page config ---
