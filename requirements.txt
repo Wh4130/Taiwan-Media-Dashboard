@@ -12,3 +12,4 @@ jieba
 plotly
 scipy
 ckiptagger
+networkx
