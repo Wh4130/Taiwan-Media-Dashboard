@@ -163,9 +163,9 @@ class MongoDbManager:
             df_ls.append(df)
         df_final = pd.concat(df_ls)
         df_final = df_final.drop_duplicates(subset = ['_id'])
-        
         return df_final
-
+    
+    
 class DataTools:
 
      # --- Transform Picture to Base64

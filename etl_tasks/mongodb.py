@@ -2,6 +2,7 @@ from pymongo import MongoClient
 from dotenv import load_dotenv
 import os, sys
 import json
+import datetime as dt
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
@@ -62,6 +63,46 @@ class MongoDbManager:
 
         except Exception as e:
             raise Exception("Failed to remove duplicates due to the following error: ", e)
+        
+    
+
+    def DELETE_BY_TIME(self, collection_name, time_window: dt.timedelta):
+        try:
+            database = self.client.get_database("news_scrape")
+            pipelines = [
+                {
+                    "$match": {
+                        "updated_time": {
+                            "$lt": dt.datetime.now() - time_window
+                        },
+                         "title": {
+                            "$exists": True
+                        }
+                    }
+                }
+            ]
+            result = database[collection_name].aggregate(pipelines)
+
+            to_rm = []
+
+            for doc in result:
+                to_rm.append(doc['_id'])
+
+            if to_rm != []:
+                delete_result = database[collection_name].delete_many(
+                    {
+                        "_id": {"$in": to_rm}
+                    }
+                )
+
+                print(f"{delete_result.deleted_count} documents removed.")
+            
+            return {"removed_count": len(to_rm)}
+
+        except Exception as e:
+            raise Exception("Failed to remove documents due to the following error: ", e)
+         
+
 
     def COUNT_DOCUMENT(self, collection_name):
         db = self.client.get_database("news_scrape")

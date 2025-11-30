@@ -35,6 +35,10 @@ def UDN_ETL(k = SCRAPER_SETTINGS['udn']['K'], t = SCRAPER_SETTINGS['udn']['T']):
         
         print("[udn] Done loading! Removing duplicated data...")
         removed_count = mongo.REMOVE_DUPLICATE("udn")["removed_count"]
+
+        print("[ltn] Removing data older than two months...")
+        removed_old_count = mongo.DELETE_BY_TIME("ltn", dt.timedelta(weeks = 8))["removed_count"]
+
         count_after = mongo.COUNT_DOCUMENT("udn")
 
         end = dt.datetime.now()
@@ -43,7 +47,7 @@ def UDN_ETL(k = SCRAPER_SETTINGS['udn']['K'], t = SCRAPER_SETTINGS['udn']['T']):
                     "source": "cna",
                     "count_before": count_before,
                     "count_after": count_after,
-                    "removed_count": removed_count,
+                    "removed_count": removed_count + removed_old_count,
                     "errors": len(udn.errors),
                     "duration": end - begin
                 }   

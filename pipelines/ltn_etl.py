@@ -37,6 +37,10 @@ def LTN_ETL(k = SCRAPER_SETTINGS['ltn']['K'], t = SCRAPER_SETTINGS['ltn']['T']):
         
         print("[ltn] Done loading! Removing duplicated data...")
         removed_count = mongo.REMOVE_DUPLICATE("ltn")["removed_count"]
+
+        print("[ltn] Removing data older than two months...")
+        removed_old_count = mongo.DELETE_BY_TIME("ltn", dt.timedelta(weeks = 8))["removed_count"]
+
         count_after = mongo.COUNT_DOCUMENT("ltn")
 
         end = dt.datetime.now()
@@ -45,7 +49,7 @@ def LTN_ETL(k = SCRAPER_SETTINGS['ltn']['K'], t = SCRAPER_SETTINGS['ltn']['T']):
             "source": "ltn",
             "count_before": count_before,
             "count_after": count_after,
-            "removed_count": removed_count,
+            "removed_count": removed_count + removed_old_count,
             "errors": len(ltn.errors),
             "duration": end - begin
         }              
