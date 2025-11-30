@@ -148,6 +148,13 @@ class MongoDbManager:
         
 
         df = pd.DataFrame(database[collection_name].aggregate(pipeline))
+        
+        # *** udn 文章類別 特別處理
+        if collection_name == "udn":
+            df['subtype'] = df['type'].apply(lambda x: x[-1])
+            df['type'] = df['type'].apply(lambda x: x[1])
+        else:
+            pass 
 
         if df.empty:
             df = pd.DataFrame(columns = ["_id", "title", "url", "type", "updated_time", "content", "len", "keywords"])
@@ -165,7 +172,7 @@ class MongoDbManager:
         df_final = df_final.drop_duplicates(subset = ['_id'])
         return df_final
     
-    
+
 class DataTools:
 
      # --- Transform Picture to Base64

@@ -72,8 +72,7 @@ async def main():
     tasks = [
         asyncio.to_thread(UDN_ETL),
         asyncio.to_thread(CNA_ETL),
-        asyncio.to_thread(LTN_ETL),
-        asyncio.to_thread(awaken_sleeping_apps)
+        asyncio.to_thread(LTN_ETL)
     ]
 
     tasks_results = await asyncio.gather(*tasks)
