@@ -3,6 +3,8 @@ from pipelines.udn_etl import UDN_ETL
 from pipelines.ltn_etl import LTN_ETL
 from utils.email_sender import EmailSender
 
+from awaken_stApps import awaken_sleeping_apps
+
 import asyncio
 import logging
 import sys, os
@@ -70,7 +72,8 @@ async def main():
     tasks = [
         asyncio.to_thread(UDN_ETL),
         asyncio.to_thread(CNA_ETL),
-        asyncio.to_thread(LTN_ETL)
+        asyncio.to_thread(LTN_ETL),
+        asyncio.to_thread(awaken_sleeping_apps)
     ]
 
     tasks_results = await asyncio.gather(*tasks)
@@ -78,7 +81,6 @@ async def main():
         "udn": tasks_results[0],
         "cna": tasks_results[1],
         "ltn": tasks_results[2]
-
     }
     
 
