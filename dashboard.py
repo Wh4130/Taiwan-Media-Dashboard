@@ -275,8 +275,9 @@ with st.container():
                 P1_Keywords.get_top_k_tags(sliced_data, 10)
             ]
             ))
-    # *** ------------------------------------------
-    # * --- article keyword dashboard
+        
+# *** ------------------------------------------
+# * --- article keyword dashboard
 
 with st.container():
     st.markdown("##### Overall Keyword Trend - Top 3 Article Keywords in the past 7 days", help = """① Source LTN（自由時報）has no attribute 'keywords', so keywords statistics are relevant to other sources only. 
@@ -293,38 +294,39 @@ with st.container():
             P1_Keywords.plot_single_kw_count(tag, tag_series)
 
 with st.container():
-    st.markdown("##### Top 100 Article Keywords in the past 7 days")
-    tags = list(P1_Keywords.kw_trans_func(sliced_data_kwt['keywords']).keys())[:100]
-    tag_df = pd.DataFrame(columns = ["tag", "ts"])
-    for tag in tags:
-        tag_df.loc[len(tag_df), ["tag", "ts"]] = [tag, P1_Keywords.get_kw_count_ts(sliced_data_kwt, tag)]
-    tag_df['total'] = tag_df.apply(lambda row: int(sum(row['ts'])), axis = 1)
+    with st.spinner("computing keyword trends..."):
+        st.markdown("##### Top 100 Article Keywords in the past 7 days")
+        tags = list(P1_Keywords.kw_trans_func(sliced_data_kwt['keywords']).keys())[:100]
+        tag_df = pd.DataFrame(columns = ["tag", "ts"])
+        for tag in tags:
+            tag_df.loc[len(tag_df), ["tag", "ts"]] = [tag, P1_Keywords.get_kw_count_ts(sliced_data_kwt, tag)]
+        tag_df['total'] = tag_df.apply(lambda row: int(sum(row['ts'])), axis = 1)
 
-    tag_df = tag_df.sort_values("total", ascending = False)
+        tag_df = tag_df.sort_values("total", ascending = False)
 
-    st.data_editor(
-        tag_df,
-        row_height = 50,
-        height = 300,
-        disabled = True,
-        hide_index = True,
-        column_config = {
-            "tag": st.column_config.TextColumn(
-                "Keyword Tag",
-                width = "small"
-            ),
-            "ts": st.column_config.BarChartColumn(
-                "Trend Time Series",
-                color = "auto-inverse",
-                help = "daily time series of # articles that mentioned the keyword"
-            ),
-            "total": st.column_config.ProgressColumn(
-                "Total Mentioned Count",
-                format = "compact",
-                max_value = 200
-            )
-        }
-    )
+        st.data_editor(
+            tag_df,
+            row_height = 50,
+            height = 300,
+            disabled = True,
+            hide_index = True,
+            column_config = {
+                "tag": st.column_config.TextColumn(
+                    "Keyword Tag",
+                    width = "small"
+                ),
+                "ts": st.column_config.BarChartColumn(
+                    "Trend Time Series",
+                    color = "auto-inverse",
+                    help = "daily time series of # articles that mentioned the keyword"
+                ),
+                "total": st.column_config.ProgressColumn(
+                    "Total Mentioned Count",
+                    format = "compact",
+                    max_value = 200
+                )
+            }
+        )
 
 
 
