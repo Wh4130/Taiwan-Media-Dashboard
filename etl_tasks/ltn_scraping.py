@@ -18,6 +18,7 @@ import json
 import time
 from tqdm import tqdm
 from multiprocessing import Pool
+from utils.utils import safe_requests_json
 from utils.constants import *
 
 
@@ -59,7 +60,7 @@ class LTN_scraper:
             news_list_url = self.base_url + f"/{page}"
             
             r = requests.get(news_list_url, headers = get_random_headers())
-            news_data = r.json()
+            news_data = safe_requests_json(r)
 
             if isinstance(news_data['data'], list):
                 news_list.extend(news_data['data'])

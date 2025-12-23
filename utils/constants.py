@@ -1,6 +1,11 @@
 import random
 from pydantic import BaseModel
 
+PIPELINE_SWITCH = {
+    "cna": True,
+    "ltn": True,
+    "udn": True
+}
 
 media_sources = {
     "cna": {"MandName": "中央社"},

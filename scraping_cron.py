@@ -3,7 +3,6 @@ from pipelines.udn_etl import UDN_ETL
 from pipelines.ltn_etl import LTN_ETL
 from utils.email_sender import EmailSender
 
-from awaken_stApps import awaken_sleeping_apps
 
 import asyncio
 import logging
@@ -79,7 +78,7 @@ async def main():
     results = {
         "udn": tasks_results[0],
         "cna": tasks_results[1],
-        "ltn": tasks_results[2]
+        "ltn": tasks_results[0]
     }
     
 
