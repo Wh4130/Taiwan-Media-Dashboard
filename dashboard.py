@@ -506,9 +506,12 @@ with st.container(border = True):
 
     # - initializing wordcloud plot
     if "wc_data" not in st.session_state["dashboard"]:
-        st.session_state["dashboard"]["wc_data"] = WordCloudManager.worcdloud_generate(st.session_state["dashboard"]["df_full"])
+        btn_str = "Generate"
+    else:
+        btn_str = "Regenerate"
 
-    if st.button("Regenerate", width = 'stretch', type = "primary"):
+    generate_btn = st.button(btn_str, width = 'stretch', type = "primary", key = "gen_wc")
+    if generate_btn
         with st.spinner("Generating wordcloud..."):
             st.session_state["dashboard"]["wc_data"] = WordCloudManager.worcdloud_generate(sliced_data, width = 800, height = 1500)
         st.rerun()
