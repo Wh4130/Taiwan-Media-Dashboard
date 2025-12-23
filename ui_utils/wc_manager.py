@@ -38,6 +38,8 @@ class WordCloudManager:
 
             freq = {}
             for ele in dictionary:
+                if ele == "APP":
+                    continue
                 if ele in tags:
                     if not re.match(r"\d+", ele):
                         freq[ele] = dictionary[ele]
