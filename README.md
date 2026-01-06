@@ -11,7 +11,7 @@
 | Web Scraping | Selenium, BeautifulSoup |
 | Database | MongoDB ([MongoDB Atlas Database](https://www.mongodb.com/products/platform/atlas-database)) |
 | Back-end (Pipeline) Cloud | [Render Cloud](https://render.com/) |
-| User Interface | Streamlit | 
+| User Interface | Streamlit, Plotly, Wordcloud, Matplotlib | 
 | Front-end Cloud | [Streamlit Cloud Platform](https://streamlit.io/) |
 
 ## Architecture 
