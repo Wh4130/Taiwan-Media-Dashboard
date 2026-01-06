@@ -5,6 +5,6 @@ __pycache__/
 .venv
 chromedriver
 *.ipynb
-test*
+*test*
 secrets.toml
 sense8

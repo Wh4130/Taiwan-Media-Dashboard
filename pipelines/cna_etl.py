@@ -46,8 +46,8 @@ def CNA_ETL(k = SCRAPER_SETTINGS['cna']['K'] , t = SCRAPER_SETTINGS['cna']['T'])
         print("[cna] Done loading! Removing duplicated data...")
         removed_count = mongo.REMOVE_DUPLICATE("cna")["removed_count"]
 
-        print("[cna] Removing data older than two months...")
-        removed_old_count = mongo.DELETE_BY_TIME("cna", dt.timedelta(weeks = 8))["removed_count"]
+        print("[cna] Removing data older than six months...")
+        removed_old_count = mongo.DELETE_BY_TIME("cna", dt.timedelta(days = 180))["removed_count"]
 
         count_after = mongo.COUNT_DOCUMENT("cna")
 

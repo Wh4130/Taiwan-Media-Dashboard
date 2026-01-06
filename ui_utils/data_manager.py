@@ -1,5 +1,6 @@
 import streamlit as st
 from pymongo import MongoClient
+import re
 from dotenv import load_dotenv
 import datetime as dt
 import os
@@ -102,51 +103,35 @@ class MongoDbManager:
         client = MongoClient(st.secrets["MONGO_URI"])
         database = client.get_database("news_scrape")
 
-        database[collection_name].create_index([
-            ('title', 'text'),
-            ('content', 'text')
-        ], name='title_content_text_index')
+        keyword = re.escape(keyword)                 # escape the keyword to avoid regex collapse
 
-        if keyword == "":
-            pipeline = [
-                {
-                    "$match": {
-                        "updated_time": {
-                            "$gte": time_interval[0],
-                            "$lte": time_interval[1]
-                        },
-                         "title": {
+        pipeline = [
+            {
+                "$match": {
+                    "title": {                       # title should exist
                         "$exists": True
-                        }
-                    }
-                }
-            ]
-        else:
-            pipeline = [
-                {
-                    "$match": {
-                        # 💡 關鍵字全文搜尋條件 (Text Search must be handled by $text)
-                        "$text": {
-                            "$search": keyword
+                    },
+                    "updated_time": {                # updatd time is in the given time interval
+                        "$gte": time_interval[0],
+                        "$lte": time_interval[1]
+                    },
+                    "$or": [
+                        {"title": {                  # the keyword is either in the title
+                                "$regex": keyword,
+                                "$options": "i"
+                            }
                         },
-                        
-                        # 💡 時間範圍篩選條件
-                        "updated_time": {
-                            "$gte": time_interval[0],
-                            "$lte": time_interval[1]
-                        },
-                        
-                        # 💡 其他條件 (例如確保 title 存在)
-                        "title": {
-                            "$exists": True
+                        {"content": {                # or in the content
+                                "$regex": keyword,
+                                "$options": "i"
+                            }
                         }
-                    }
+                    ]
                 }
-                # 您可以根據需要在此處添加其他階段，如 $sort, $limit 等
-            ]
+            }
+        ]
 
-        
-
+    
         df = pd.DataFrame(database[collection_name].aggregate(pipeline))
         
         # *** udn 文章類別 特別處理

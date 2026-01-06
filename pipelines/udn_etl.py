@@ -36,8 +36,8 @@ def UDN_ETL(k = SCRAPER_SETTINGS['udn']['K'], t = SCRAPER_SETTINGS['udn']['T']):
         print("[udn] Done loading! Removing duplicated data...")
         removed_count = mongo.REMOVE_DUPLICATE("udn")["removed_count"]
 
-        print("[ltn] Removing data older than two months...")
-        removed_old_count = mongo.DELETE_BY_TIME("ltn", dt.timedelta(weeks = 8))["removed_count"]
+        print("[ltn] Removing data older than six months...")
+        removed_old_count = mongo.DELETE_BY_TIME("ltn", dt.timedelta(days = 180))["removed_count"]
 
         count_after = mongo.COUNT_DOCUMENT("udn")
 
