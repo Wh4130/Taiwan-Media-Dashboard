@@ -10,9 +10,9 @@
 | Language | Python |
 | Web Scraping | Selenium, BeautifulSoup |
 | Database | MongoDB ([MongoDB Atlas Database](https://www.mongodb.com/products/platform/atlas-database)) |
-| Back-end (Pipeline) Cloud | Render Cloud |
+| Back-end (Pipeline) Cloud | [Render Cloud](https://render.com/) |
 | User Interface | Streamlit | 
-| Front-end Cloud | Streamlit Cloud Platform |
+| Front-end Cloud | [Streamlit Cloud Platform](https://streamlit.io/) |
 
 ## Architecture 
 ```mermaid
