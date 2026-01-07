@@ -9,7 +9,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 import plotly.figure_factory as ff
 from utils.constants import media_sources, color_mapping
-from ui_utils.data_manager import MongoDbManager, MathTools
+from ui_utils.data_manager import MongoDbManager, MathTools, DataTools
 from ui_utils.wc_manager import WordCloudManager
 from ui_utils.ui_manager import UIManager, P1_Keywords
 
@@ -44,7 +44,9 @@ with st.spinner("Initializing dashboard..."):
         st.session_state["dashboard"] = {}
 
         # - default: past 7 day data
-        st.session_state["dashboard"]["df_full"] = MongoDbManager.SELECT_ALL_BY_TIME([dt.datetime.now() - dt.timedelta(days = 7), dt.datetime.now()])
+        st.session_state["dashboard"]["df_full"] = MongoDbManager.SELECT_ALL_BY_TIME(
+            DataTools.get_time_without_minute_and_second()
+        )
 
         # - default: past 7 day data
         # st.session_state["dashboard"]["df_7day"] = st.session_state["dashboard"]["df_full"].copy()

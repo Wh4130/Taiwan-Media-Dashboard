@@ -10,6 +10,7 @@ import pandas as pd
 import base64
 
 from utils.constants import media_sources
+from typing import List
 # load_dotenv()
 
 
@@ -59,7 +60,7 @@ class MongoDbManager:
             time_interval: list[dt.datetime]):      
         
         ###! 實驗後發現單線程會比較快！驚訝
-        async_on = False
+        async_on = True
         
         collections = media_sources.keys()
         df_list = []
@@ -165,6 +166,21 @@ class DataTools:
     def image_to_b64(image_path):
         with open(image_path, "rb") as img_file:
             return base64.b64encode(img_file.read()).decode("utf-8")
+        
+
+    @staticmethod
+    def get_time_without_minute_and_second() -> List:
+        now_raw = dt.datetime.now()
+        now = now_raw.replace(
+            hour = (now_raw.hour // 2) * 2,
+            minute = 30,
+            second = 0,
+            microsecond = 0
+        )
+        prev = now - dt.timedelta(days = 7)
+        return [prev, now]
+    
+
 
 class MathTools:
     
