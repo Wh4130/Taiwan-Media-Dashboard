@@ -44,7 +44,7 @@ with st.spinner("Initializing dashboard..."):
         st.session_state["dashboard"] = {}
 
         # - default: past 7 day
-        st.session_state['interval'] = DataTools.get_time_without_minute_and_second(day_delta = 5)
+        st.session_state['interval'] = DataTools.get_time_without_minute_and_second(day_delta = 7)
 
         # - default: past 7 day data
         st.session_state["dashboard"]["df_full"] = MongoDbManager.SELECT_ALL_BY_TIME(
